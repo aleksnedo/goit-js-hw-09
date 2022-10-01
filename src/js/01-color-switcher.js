@@ -1,15 +1,27 @@
 const bodyRef = document.querySelector('body');
-const startBtn = document.querySelector('button[data-start]');
-const stopBtn = document.querySelector('button[data-stop]');
+const startBtnRef = document.querySelector('button[data-start]');
+const stopBtnRef = document.querySelector('button[data-stop]');
+// let intervalId = null;
+stopBtnRef.setAttribute('disabled', 'disablet');
 
-const onChangeColor = () => {
-  const randomColor = getRandomHexColor();
-  bodyRef.style.backgroundColor = randomColor;
-  console.log(randomColor);
+const onChangeColorStart = () => {
+  intervalId = setInterval(changeBackgroundColor, 1000);
+  startBtnRef.setAttribute('disabled', 'disablet');
+  stopBtnRef.removeAttribute('disabled');
 };
 
-startBtn.addEventListener('click', onChangeColor);
-stopBtn.addEventListener('click', stopChangeColor);
+const onChangeColorStop = () => {
+  clearInterval(intervalId);
+  startBtnRef.removeAttribute('disabled');
+  stopBtnRef.setAttribute('disabled', 'disablet');
+};
+
+startBtnRef.addEventListener('click', onChangeColorStart);
+stopBtnRef.addEventListener('click', onChangeColorStop);
+
+const changeBackgroundColor = () => {
+  bodyRef.style.backgroundColor = getRandomHexColor();
+};
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;

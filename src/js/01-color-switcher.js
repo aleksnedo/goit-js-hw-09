@@ -1,7 +1,8 @@
 const bodyRef = document.querySelector('body');
 const startBtnRef = document.querySelector('button[data-start]');
 const stopBtnRef = document.querySelector('button[data-stop]');
-// let intervalId = null;
+let intervalId = null;
+
 stopBtnRef.setAttribute('disabled', 'disablet');
 
 const onChangeColorStart = () => {

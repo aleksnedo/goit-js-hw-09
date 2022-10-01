@@ -1,14 +1,16 @@
+const bodyRef = document.querySelector('body');
 const startBtn = document.querySelector('button[data-start]');
 const stopBtn = document.querySelector('button[data-stop]');
 
-console.log(startBtn);
-let counter = 0;
-startBtn.addEventListener('click', countDecrement);
-stopBtn.addEventListener('click', countIncrement);
+const onChangeColor = () => {
+  const randomColor = getRandomHexColor();
+  bodyRef.style.backgroundColor = randomColor;
+  console.log(randomColor);
+};
 
-function countDecrement() {
-  counter -= 1;
-}
-function countIncrement() {
-  counter += 1;
+startBtn.addEventListener('click', onChangeColor);
+stopBtn.addEventListener('click', stopChangeColor);
+
+function getRandomHexColor() {
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }

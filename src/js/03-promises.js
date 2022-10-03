@@ -1,29 +1,28 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-const NOTIFY_TIMEOUT = 5000; //ms
 
-const promisesFormRef = document.querySelector('.form');
+const formRef = document.querySelector('.form');
 
-promisesFormRef.addEventListener('submit', onPromisesFormSubmit);
+formRef.addEventListener('submit', onPromisesSubmit);
 
-function onPromisesFormSubmit(event) {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget);
+function onPromisesSubmit(e) {
+  e.preventDefault();
+  const formData = new FormData(e.currentTarget);
   const formDataObj = {};
   formData.forEach((value, key) => {
     formDataObj[key] = Number(value);
   });
-  // console.log(formDataObj);
-  createPromisesArray(formDataObj);
+
+  createArray(formDataObj);
 }
 
-function createPromisesArray({ delay, step, amount }) {
+function createArray({ delay, step, amount }) {
   const delaysArray = Array.from(
     { length: amount },
     (_, i) => delay + i * step
   );
-  // console.log(delaysArray);
+
   const promises = delaysArray.map(createPromise);
-  // console.log(promises);
+  console.log(promises);
 }
 
 function createPromise(delay, position) {
@@ -32,21 +31,13 @@ function createPromise(delay, position) {
     setTimeout(() => {
       if (shouldResolve) {
         // Fulfill
-        resolve(`Fulfilled promice ${position + 1} in ${delay} ms`);
+        resolve(`✅ Fulfilled promice ${position + 1} in ${delay} ms`);
       } else {
         // Reject
-        reject(`Rejected promice ${position + 1} in ${delay} ms`);
+        reject(`❌ Rejected promice ${position + 1} in ${delay} ms`);
       }
     }, delay);
   })
-    .then(value =>
-      Notify.success(value, {
-        timeout: NOTIFY_TIMEOUT,
-      })
-    )
-    .catch(error =>
-      Notify.failure(error, {
-        timeout: NOTIFY_TIMEOUT,
-      })
-    );
+    .then(value => Notify.success(value))
+    .catch(error => Notify.failure(error));
 }
